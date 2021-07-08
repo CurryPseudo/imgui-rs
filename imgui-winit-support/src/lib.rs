@@ -1118,6 +1118,16 @@ impl WinitPlatform {
                     _ => (),
                 }
             }
+            WindowEvent::Touch(touch) => {
+                let pressed = match touch.phase {
+                    TouchPhase::Started => true,
+                    TouchPhase::Moved => true,
+                    TouchPhase::Ended => false,
+                    TouchPhase::Cancelled => false,
+                };
+                self.mouse_buttons[0].set(pressed);
+                io.mouse_pos = [touch.location.x as f32, touch.location.y as f32];
+            }
             _ => (),
         }
     }
